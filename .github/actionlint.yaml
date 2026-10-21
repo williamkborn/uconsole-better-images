@@ -1,0 +1,6 @@
+# Ubuntu 26.04 is a standard GitHub-hosted label, newer than actionlint 1.7.12's catalog.
+# https://github.com/actions/runner-images/blob/main/README.md
+paths:
+  .github/workflows/release-image.yml:
+    ignore:
+      - 'label "ubuntu-26.04" is unknown'

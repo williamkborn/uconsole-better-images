@@ -61,10 +61,16 @@ cache; the fetcher refuses unexpected pinned source revisions. Review patch
 conflicts and the resulting diff, retain compressed-firmware support and AppArmor,
 and run the offline checks and a native CM4 smoke test before publishing results.
 
+## Automated release builds
+
+See [RELEASING.md](RELEASING.md) for tag triggers, runner requirements, the release
+profile, split image assets and publication behavior.
+
 ## Lightweight project checks
 
 ```sh
 bash scripts/check-project.sh
+python3 -m unittest discover -s tests -v
 ```
 
 This checks script syntax, Python compilation without writing bytecode, JSON

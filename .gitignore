@@ -21,4 +21,7 @@ __pycache__/
 !/docs/VALIDATION.md
 !/docs/THIRD-PARTY.md
 !/docs/LESSONS.md
+!/docs/RELEASING.md
 /scripts/fetch-vendor-packages.py
+
+/dist/

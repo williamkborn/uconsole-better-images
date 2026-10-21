@@ -61,7 +61,12 @@ for executable in executables:
 for xml in (root / 'etc/skel/.config/xfce4').rglob('*.xml'):
     ET.parse(xml)
 checks.append('Vendor Xfce settings parse as XML')
-check((root / 'usr/share/games/tyrian/tyrian1.lvl').exists(), 'Tyrian game data')
+profile = (root / 'etc/uconsole-build-profile').read_text().strip()
+check(profile in ('full', 'release'), 'Recognized build profile')
+if profile == 'release':
+    check(not (root / 'usr/share/games/tyrian').exists(), 'Release excludes proprietary Tyrian data')
+else:
+    check((root / 'usr/share/games/tyrian/tyrian1.lvl').exists(), 'Tyrian game data')
 check((root / 'etc/cloud/cloud-init.disabled').exists(), 'Cloud-init disabled for local first-boot flow')
 check((root / 'etc/machine-id').stat().st_size == 0, 'Machine identity will be created at boot')
 check(not list((root / 'etc/ssh').glob('ssh_host_*')), 'No shared SSH host keys')
@@ -72,6 +77,6 @@ check((root / 'opt/obsidian/chrome-sandbox').stat().st_mode & 0o4777 == 0o4755, 
 check('--no-sandbox' not in (root / 'usr/local/bin/obsidian').read_text(), 'Obsidian production sandbox enabled')
 check('lightdm' in (root / 'etc/X11/default-display-manager').read_text(), 'LightDM selected as display manager')
 check('cpi:' in (root / 'etc/passwd').read_text(), 'Local user exists')
-report = dict(kernel=release, checks=checks, physical_boot_tested=False)
+report = dict(kernel=release, build_profile=profile, checks=checks, physical_boot_tested=False)
 (project / 'docs/root-verification.json').write_text(json.dumps(report, indent=2) + '\n')
 print(f'{len(checks)} offline checks passed')

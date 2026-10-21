@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 # Build only. Flashing is a separate, explicitly targeted operation.
 set -euo pipefail
+if [[ $EUID != 0 ]]; then
+ exec sudo --preserve-env=JOBS,UCONSOLE_BUILD_PROFILE bash "$0" "$@"
+fi
+export UCONSOLE_BUILD_PROFILE=${UCONSOLE_BUILD_PROFILE:-full}
+[[ $UCONSOLE_BUILD_PROFILE == full || $UCONSOLE_BUILD_PROFILE == release ]] || exit 2
 if [[ ${UCONSOLE_PRIVATE_MOUNTS:-0} != 1 ]]; then
- exec sudo unshare --mount --propagation private env UCONSOLE_PRIVATE_MOUNTS=1 bash "$0" "$@"
+ exec unshare --mount --propagation private env UCONSOLE_PRIVATE_MOUNTS=1 bash "$0" "$@"
 fi
 cd "$(dirname "$0")/.."
 project=$PWD
@@ -44,6 +49,7 @@ e2fsck -pf "${loop}p2" || [[ $? == 1 ]]
 resize2fs "${loop}p2"
 mkdir -p "$root"
 mount "${loop}p2" "$root"
+printf '%s\n' "$UCONSOLE_BUILD_PROFILE" > "$root/etc/uconsole-build-profile"
 mkdir -p "$root/boot/firmware"
 mount "${loop}p1" "$root/boot/firmware"
 mount --rbind /dev "$root/dev"

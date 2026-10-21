@@ -72,7 +72,9 @@ mkdir -p "$root/etc/udev/rules.d" "$root/etc/modprobe.d"
 printf '%s\n' 'KERNEL=="axp20x-battery", ATTR{constant_charge_current_max}="2200000", ATTR{constant_charge_current}="2000000"' > "$root/etc/udev/rules.d/99-uconsole-charging.rules"
 printf '%s\n' 'blacklist qmi_wwan' 'blacklist cdc_wdm' > "$root/etc/modprobe.d/blacklist-qmi.conf"
 
-tar -xzf assets/tyrian-data.tar.gz -C "$root"
+if [[ ${UCONSOLE_BUILD_PROFILE:-full} != release ]]; then
+ tar -xzf assets/tyrian-data.tar.gz -C "$root"
+fi
 chroot "$root" /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install -y opentyrian greybird-gtk-theme lxterminal galculator qt5ct'
 
 # Keep keyboard/modem firmware and flashing tools available without flashing them.

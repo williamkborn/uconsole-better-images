@@ -10,6 +10,15 @@ and its owner reported that it works great on October 21, 2026. This is a user
 smoke-test report, not a claim that every optional peripheral was tested.
 See [validation](docs/VALIDATION.md) and the [customization audit](docs/CUSTOMIZATION-AUDIT.md).
 
+## Automated releases
+
+Push a version tag such as `v2026.10.21`, or run **Build and release CM4 image**
+from the Actions tab with an existing tag. The workflow builds and verifies the
+image, then publishes compressed image assets, checksums, matching kernel source
+and build reports to GitHub Releases. See [release instructions](docs/RELEASING.md).
+Public release images omit Tyrian's proprietary game data; local full builds
+retain it. Hardware and desktop customizations are included in both profiles.
+
 ## Build
 
 Use an Ubuntu 26.04 x86-64 host with root access. Allow at least **50 GiB free**
@@ -65,6 +74,7 @@ and verifies all 16 GiB by readback SHA256. It has no default device.
 This repository contains build scripts, source locks, patches, asset hashes and
 documentation. Downloaded operating systems, proprietary applications, game data,
 local card backups, generated reports and build outputs stay outside Git.
+The release workflow publishes the release-profile image separately as assets.
 Third-party assets are extracted locally from hash-pinned vendor images.
 See [third-party sources and terms](docs/THIRD-PARTY.md) before redistributing an image.
 
