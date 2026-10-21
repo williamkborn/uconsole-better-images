@@ -1,0 +1,24 @@
+# Downloaded payloads, mounted filesystems, and local build state.
+/assets/
+/build/
+/downloads/
+/logs/
+/mnt/
+/sources/
+/reports/
+*.img
+*.img.*
+*.deb
+__pycache__/
+*.py[cod]
+.env
+.env.*
+
+# Keep generated diagnostics and original-card inventories local.
+/docs/*
+!/docs/CUSTOMIZATION-AUDIT.md
+!/docs/BUILDING.md
+!/docs/VALIDATION.md
+!/docs/THIRD-PARTY.md
+!/docs/LESSONS.md
+/scripts/fetch-vendor-packages.py

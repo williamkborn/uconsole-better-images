@@ -1,0 +1,6 @@
+*.sh text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+# Patch context must retain upstream whitespace exactly.
+*.patch -whitespace
